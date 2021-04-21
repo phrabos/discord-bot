@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
+require('discord-reply')
 const client = new Discord.Client();
 const fetch = require('node-fetch');
 
@@ -27,6 +28,10 @@ client.on('message', message =>{
           `
         )
       })
+  }
+  if(message.content.includes('!setup')){
+    message.lineReplyNoMention('ready to setup...')
+    
   }
 });
 
