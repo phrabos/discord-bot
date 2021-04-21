@@ -14,7 +14,7 @@ client.login(process.env.TOKEN);
 client.on('message', async message =>{
 
   
-  if(message.content.includes('!setup')){
+  if(message.content.includes('!start')){
 
     const sender= message.author.username
 
@@ -36,7 +36,39 @@ client.on('message', async message =>{
       }
     }) 
   }
-
+  if(message.content.includes('!config')){
+    const configSteps = {
+      validTimer: false,
+    }
+    const sender = message.author.username
+    if(!message.author.bot)
+    message.reply('pick from three levels of persistence: 1)mild 2)medium 3)sadistic')
+    client.on('message', message =>{
+      if(message.author.bot)return
+      if(!Number(message.content) && !message.author.bot){
+        return message.reply('must enter a number between 1 - 3')
+      }
+      if(message.content === '1' || message.content === '2' || message.content === '3'){
+        message.reply('ready to set up! Tell me how many milliseconds you want to be productive...')
+        client.on('message', message =>{
+          if(message.author.bot)return
+          if(message.author.username === sender){
+          if(!Number(message.content)){
+            return message.reply('must enter a number')
+          }
+          if(message.content){
+            message.reply(`timer set for ${message.content} milliseconds`)
+            message.reply(`you are now in shame-mode`)
+            setTimeout(() => {
+              message.reply('now out of shame-mode, carry on')
+            }, message.content);
+          }
+        }
+          
+        })
+      }
+    })
+  }
 })
 
 // .then(async ()=>{
