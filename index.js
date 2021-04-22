@@ -14,26 +14,47 @@ client.login(process.env.TOKEN);
 client.on('message', async message =>{
 
   
-  if(message.content.includes('!start')){
-
+  if(message.content.startsWith('!start')){
+  //  const mode = message.content.split(" ")[1]
+  //  const time = message.content.split(" ")[2]
+   const [mode, timeoutLength] = message.content.split(" ").slice(1)
     const sender= message.author.username
+    let isActive = true;
+    let shameLevel = 0;  
+    
+    switch(mode){
+      case 'easy':
+      break;
+      case 'medium':
+      break;
+      case 'sadistic':
+      break;
+      default: message.reply('not valid option, please type easy medium od sadistic') 
+      return;
+    }
+    message.reply(` your level of ${mode} has been set.`)
 
-    message.reply('timeout started')
+    message.reply(`amount of time ${timeoutLength}`);
     
     let timeoutObj = client.setTimeout( () => { 
+      isActive = false;
       console.log('timeout complete');
       message.reply('no longer shamed, rejoins society');
-     }, 20000);
+     }, timeoutLength);
      
 
   client.on('message', message=>{
     
     if(message.author.bot)return
-    if(message.content.includes('stop') && message.author.username === sender){
+    if(message.content.includes('stop') && message.author.username === sender && isActive === true){
+      isActive = false;
       client.clearTimeout(timeoutObj);
       message.reply('timer ended')
       console.log('timer ended')
-      }
+
+    }
+
+
     }) 
   }
 
