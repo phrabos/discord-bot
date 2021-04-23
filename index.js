@@ -11,6 +11,18 @@ client.once('ready', ()=>{
 
 client.login(process.env.TOKEN);
 
+function stopTimer (message, sender, timeoutObj){
+    
+  if(message.author.bot)return
+  if(message.content.includes('stop') && message.author.username === sender && isActive === true){
+    isActive = false;
+    client.clearTimeout(timeoutObj);
+    message.reply('timer ended')
+    console.log('timer ended')
+
+  }
+}
+
 client.on('message', async message =>{
 
   
@@ -40,22 +52,11 @@ client.on('message', async message =>{
       isActive = false;
       console.log('timeout complete');
       message.reply('no longer shamed, rejoins society');
+      client.removeListener('message', stopTimer)
      }, timeoutLength);
      
 
-  client.on('message', message=>{
-    
-    if(message.author.bot)return
-    if(message.content.includes('stop') && message.author.username === sender && isActive === true){
-      isActive = false;
-      client.clearTimeout(timeoutObj);
-      message.reply('timer ended')
-      console.log('timer ended')
-
-    }
-
-
-    }) 
+  client.on('message', stopTimer) 
   }
 
   // if(message.content.includes('!config')){
