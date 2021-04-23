@@ -54,7 +54,7 @@ client.on('message', async message =>{
       message.reply('no longer shamed, rejoins society');
       client.removeListener('message', stopTimer)
      }, timeoutLength);
-     
+     console.log(timeoutObj)
 
   client.on('message', stopTimer) 
   }
